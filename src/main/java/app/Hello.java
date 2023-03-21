@@ -4,6 +4,7 @@ import Item1.*;
 import org.apache.commons.io.IOUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -264,6 +265,27 @@ public class Hello {
 
         writeLinesToFile2(lines1, testFile);
         System.out.println(readFile2(testFile));
+
+        writeLinesToFile3(lines1, testFile);
+        System.out.println(readFile3(testFile));
+    }
+
+    public static List<String> readFile3(File file) {
+        try {
+            return Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void writeLinesToFile3(List<String> lines, File file) {
+        try {
+            Files.write(file.toPath(), lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<String> readFile2(File file) {
