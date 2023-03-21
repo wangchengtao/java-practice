@@ -1,6 +1,8 @@
 package app;
 
 import Item1.*;
+import org.apache.commons.io.IOUtils;
+
 import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -160,8 +162,8 @@ public class Hello {
         t.start();
 
         System.out.println("Args size: " + args.length);
-       System.out.println("first args: " + args[0]);
-       System.out.println("second args: " + args[1]);
+       // System.out.println("first args: " + args[0]);
+       // System.out.println("second args: " + args[1]);
 
 
         Set<Integer> linkedHashSet = new HashSet<>();
@@ -256,10 +258,30 @@ public class Hello {
 
         writeLinesToFile1(testFile);
         System.out.println(readFile1(testFile));
+
+        List<String> lines1 = new ArrayList<>();
+        lines1.add("诸葛村夫");
+
+        writeLinesToFile2(lines1, testFile);
+        System.out.println(readFile2(testFile));
+    }
+
+    public static List<String> readFile2(File file) {
+        try {
+            return IOUtils.readLines(new FileInputStream(file), "utf-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public static void writeLinesToFile2(List<String> lines, File file) {
-
+        try {
+            IOUtils.writeLines(lines, "\n", new FileOutputStream(file, true), "utf-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static List<String> readFile1(File file) {
@@ -280,7 +302,7 @@ public class Hello {
     }
 
     public static void writeLinesToFile1(File file) {
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)))) {
             // 文件流可自动关闭 不需要手动 close
 
             Properties properties = System.getProperties();
