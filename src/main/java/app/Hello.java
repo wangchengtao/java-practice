@@ -2,6 +2,7 @@ package app;
 
 import Item1.*;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -268,6 +269,59 @@ public class Hello {
 
         writeLinesToFile3(lines1, testFile);
         System.out.println(readFile3(testFile));
+
+        if (isValid("{}()[]]")) {
+            System.out.println("true");
+        } else {
+            System.out.println("false");
+        }
+
+        Integer[] ints = new Integer[]{3, 2, 4, 5};
+        DynamicArray<Integer> dynamicArray = new DynamicArray<>(ints);
+        System.out.println(dynamicArray.toString());
+
+        int opCount = 10000;
+        ArrayQueue<Integer> arrayQueue = new ArrayQueue<>();
+        LoopQueue<Integer> loopQueue = new LoopQueue<>();
+        double time1 = testQueue(arrayQueue, opCount);
+        System.out.println("ArrayQueue time : " + time1 + " s");
+        double time2 = testQueue(loopQueue, opCount);
+        System.out.println("LoopQueue time : " + time2 + " s");
+    }
+
+    public static double testQueue(Queue<Integer> queue, int opCount) {
+        long startTime = System.nanoTime();
+        for (int i = 0; i < opCount; i++) {
+            queue.enqueue(i);
+        }
+        // System.out.println(queue);
+        for (int i = 0; i < opCount; i++) {
+            queue.dequeue();
+        }
+        long endTime = System.nanoTime();
+
+        return (endTime - startTime) / 1000000000.0;
+    }
+
+    public static boolean isValid(String s) {
+        Stack<Character> stack = new Stack<>();
+
+        for (Character c : s.toCharArray()) {
+            if (ArrayUtils.contains(new char[]{'{', '(', '['}, c)) {
+                stack.push(c);
+            } else {
+                if (!stack.isEmpty()) {
+                    char p = stack.pop();
+                    if (p != '{' && c == '}') return false;
+                    if (p != '(' && c == ')') return false;
+                    if (p != '[' && c == ']') return false;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
     }
 
     public static List<String> readFile3(File file) {
@@ -282,7 +336,7 @@ public class Hello {
 
     public static void writeLinesToFile3(List<String> lines, File file) {
         try {
-            Files.write(file.toPath(), lines, StandardCharsets.UTF_8, StandardOpenOption.APPEND);
+            Files.write(file.toPath(), lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -300,7 +354,7 @@ public class Hello {
 
     public static void writeLinesToFile2(List<String> lines, File file) {
         try {
-            IOUtils.writeLines(lines, "\n", new FileOutputStream(file, true), "utf-8");
+            IOUtils.writeLines(lines, "\n", new FileOutputStream(file), "utf-8");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -324,7 +378,7 @@ public class Hello {
     }
 
     public static void writeLinesToFile1(File file) {
-        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file, true)))) {
+        try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)))) {
             // 文件流可自动关闭 不需要手动 close
 
             Properties properties = System.getProperties();
