@@ -60,8 +60,8 @@ public class DynamicArray<E> {
         size++;
     }
 
-    public E removeLast(E e) {
-        return remove(size -1);
+    public E removeLast() {
+        return remove(size - 1);
     }
 
     public E removeFirst() {

@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
+import java.util.Stack;
 
 public class Hello {
     public static void main(String[] args) throws IOException {
@@ -287,6 +288,16 @@ public class Hello {
         System.out.println("ArrayQueue time : " + time1 + " s");
         double time2 = testQueue(loopQueue, opCount);
         System.out.println("LoopQueue time : " + time2 + " s");
+
+        ArrayStack<Integer> arrayStack = new ArrayStack<>();
+        for (int i = 0; i < 15; i++) {
+            arrayStack.push(i);
+        }
+        System.out.println(arrayStack);
+        for (int i = 0; i < 15; i++) {
+            arrayStack.pop();
+        }
+        System.out.println(arrayStack);
     }
 
     public static double testQueue(Queue<Integer> queue, int opCount) {
