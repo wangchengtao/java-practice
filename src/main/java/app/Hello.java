@@ -281,23 +281,45 @@ public class Hello {
         DynamicArray<Integer> dynamicArray = new DynamicArray<>(ints);
         System.out.println(dynamicArray.toString());
 
-        int opCount = 10000;
+        LinkedList<Integer> linkedList = new LinkedList<>();
+        for (int i = 0; i < 15; i++) {
+            linkedList.addLast(i);
+        }
+        linkedList.set(18, 0);
+        linkedList.remove(9);
+        System.out.println(linkedList);
+
+        int opCount = 15;
         ArrayQueue<Integer> arrayQueue = new ArrayQueue<>();
         LoopQueue<Integer> loopQueue = new LoopQueue<>();
+        LinkedListQueue<Integer> linkedListQueue = new LinkedListQueue<>();
         double time1 = testQueue(arrayQueue, opCount);
         System.out.println("ArrayQueue time : " + time1 + " s");
         double time2 = testQueue(loopQueue, opCount);
         System.out.println("LoopQueue time : " + time2 + " s");
+        double time3 = testQueue(linkedListQueue, opCount);
+        System.out.println("LinkedListQueue time : " + time3 + " s");
 
         ArrayStack<Integer> arrayStack = new ArrayStack<>();
-        for (int i = 0; i < 15; i++) {
-            arrayStack.push(i);
+        LinkedListStack<Integer> linkedListStack = new LinkedListStack<>();
+        double time4 = testStack(arrayStack, 15);
+        System.out.println("Array stack, time: " + time4 + " s");
+        double time5 = testStack(linkedListStack, 15);
+        System.out.println("Linked list stack, time: " + time5 + " s");
+
+    }
+
+    public static double testStack(app.Stack<Integer> stack, int opCount) {
+        long startTime = System.nanoTime();
+        for (int i = 0; i < opCount; i++) {
+            stack.push(i);
         }
-        System.out.println(arrayStack);
-        for (int i = 0; i < 15; i++) {
-            arrayStack.pop();
+        System.out.println(stack);
+        for (int i = 0; i < opCount; i++) {
+            stack.pop();
         }
-        System.out.println(arrayStack);
+        long endTime = System.nanoTime();
+        return (endTime - startTime) / 1000000000.0;
     }
 
     public static double testQueue(Queue<Integer> queue, int opCount) {
