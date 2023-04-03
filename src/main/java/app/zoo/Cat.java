@@ -1,7 +1,7 @@
 package app.zoo;
 
 public class Cat extends Animal implements Cloneable {
-    public String name;
+    public String name = "孙思邈";
 
     public Cat() {
 
@@ -17,7 +17,7 @@ public class Cat extends Animal implements Cloneable {
 
     @Override
     public void eat() {
-        System.out.println("吃鱼");
+        System.out.println("吃鱼" + name);
     }
 
     @Override

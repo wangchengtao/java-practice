@@ -5,6 +5,7 @@ public class Main {
         Animal animal = new Cat();
         animal.eat();
         animal.speak();
+        System.out.println(animal.name);
 
         Cat cat = (Cat)animal;
         cat.speak();
