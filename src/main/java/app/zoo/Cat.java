@@ -16,6 +16,11 @@ public class Cat extends Animal implements Cloneable {
     }
 
     @Override
+    public void eat() {
+        System.out.println("吃鱼");
+    }
+
+    @Override
     public void speak() {
         System.out.println("我是猫");
     }
