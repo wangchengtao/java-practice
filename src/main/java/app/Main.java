@@ -18,6 +18,19 @@ public class Main {
 
         Animal cat = new Cat();
         cat.speak();
+
+        Runnable runnable = () -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            System.out.println("do sth");
+        };
+
+        Thread t = new Thread(runnable);
+        t.start();
     }
 
 }
