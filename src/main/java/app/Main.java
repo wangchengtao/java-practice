@@ -2,31 +2,32 @@ package app;
 
 import app.zoo.Animal;
 import app.zoo.Cat;
-import org.apache.commons.io.output.WriterOutputStream;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
         int j = 0;
         int i = 0;
-        i = i++ + ++i;
-        j = ++j + j++ + j++ + j++;
-        System.out.println(i); // 1
-        System.out.println(j); // 4
+        i = i++ + ++i; // 0 + 2
+        j = ++j + j++ + j++ + j++;  // 1 + 1 + 2 + 3
+        System.out.println(i); // 2
+        System.out.println(j); // 7
 
         MyTestClass myTestClass = MyTestClass.getInstance();
-        System.out.println("a: " + myTestClass.getA());
-        System.out.println("b: " + myTestClass.getB());
+        System.out.println("a: " + myTestClass.getA()); // 0
+        System.out.println("b: " + myTestClass.getB()); // 1
 
         Animal cat = new Cat();
         cat.speak();
 
+        threadRun();
+        outputSystemProperties();
+
+    }
+
+    public static void threadRun() {
         Runnable runnable = () -> {
             try {
                 Thread.sleep(5000);
@@ -39,14 +40,9 @@ public class Main {
 
         Thread t = new Thread(runnable);
         t.start();
+    }
 
-        System.out.println(System.getenv("AAA"));
-        System.out.print("水电费");
-        System.err.println("standard error");
-        System.out.println("Main.main");
-        System.out.println("args = " + Arrays.deepToString(args));
-        System.out.println("t = " + t);
-
+    public static void outputSystemProperties() {
         File file = new File(System.getProperty("user.dir") + "/target/properties.txt");
 
         try {
@@ -60,28 +56,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        ProcessBuilder pb = new ProcessBuilder("sh", "run.sh");
-
-        pb.redirectOutput(getOutputFile());
-        pb.directory(getWorkingDir());
-        Map<String, String> environment = pb.environment();
-        environment.put("AAA", "123");
-        try {
-            pb.start().waitFor();
-        } catch (InterruptedException | IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private static File getOutputFile() {
-        return new File(getWorkingDir(), "output.txt");
-    }
-
-    private static File getWorkingDir() {
-        Path dir = Paths.get(System.getProperty("user.dir"));
-        return dir.resolve("target").toFile();
     }
 
 }
